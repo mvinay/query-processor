@@ -21,7 +21,7 @@ public:
   CREATE_CONSTANT(float);
   CREATE_CONSTANT(string);
 
-  AttributeType getType() { return type; }
+  AttributeType getType() const { return type; }
 };
 
 class IntConstant : public Constant {

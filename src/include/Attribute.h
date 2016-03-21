@@ -25,6 +25,8 @@ public:
 
   std::string getName() const { return name; }
 
+  AttributeType getType() const { return type; }
+
   const std::string getTypeName() { return AttributeTypeNames[type]; }
 
   struct AttributeCompare {

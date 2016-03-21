@@ -7,18 +7,22 @@
 #include "Attribute.h"
 
 // Project operation filters the attributes in the provided operand
-class ProjectOperation : public BinaryRelationalOperation {
+class ProjectOperation : public RelationalOperation {
 
 private:
   ProjectOperation(Tuple *tuple, Operand *value, string operandName,
                    const Tuple *outputTuple, Query *query)
-      : BinaryRelationalOperation(tuple, value, "project", operandName,
-                                  outputTuple, query) {}
+      : RelationalOperation("project", operandName, outputTuple, query) {
+    addOperand(tuple);
+    addOperand(value);
+  }
 
 public:
   static ProjectOperation *create(Tuple *tuple, Operand *value,
                                   string operandName, Query *query);
 
   const Tuple *getTuple() const { return static_cast<Tuple *>(getOperand(0)); }
+
+  virtual void validate() const;
 };
 #endif

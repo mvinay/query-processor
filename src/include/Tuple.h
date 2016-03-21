@@ -4,6 +4,7 @@
 #include "Attribute.h"
 #include "Operand.h"
 
+#include <algorithm>
 #include <set>
 
 typedef std::set<Attribute *, Attribute::AttributeCompare> AttributeSet;
@@ -44,5 +45,15 @@ public:
   }
 
   virtual std::string dump() const { return print(); }
+
+  bool hasAttribute(Attribute *attribute) const {
+    return attributeList.find(attribute) != attributeList.end();
+  }
+
+  bool isSuperSetOf(const Tuple *tuple) const {
+    return std::includes(attributeList.begin(), attributeList.end(),
+                         tuple->getAttributeList().begin(),
+                         tuple->getAttributeList().end());
+  }
 };
 #endif

@@ -36,6 +36,13 @@ public:
   void pushBackOperation(Operation *operation) {
     operationList.push_back(operation);
   }
+
+  typedef OperationList::iterator optr_iterator;
+
+  optr_iterator optr_begin() { return operationList.begin(); }
+  optr_iterator optr_end() { return operationList.end(); }
+
+  std::string dump() const;
 };
 
 #endif
