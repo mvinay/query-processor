@@ -6,7 +6,7 @@
 #include <cassert>
 
 BooleanExpr *BooleanExpr::create(Operand *lhs, Operand *rhs,
-                                 BoolOperatorType operatorType,
+                                 BoolOperatorType operatorType, Query *query,
                                  string operationName = "") {
 
   if (dynamic_cast<Attribute *>(lhs)) {
@@ -21,5 +21,5 @@ BooleanExpr *BooleanExpr::create(Operand *lhs, Operand *rhs,
     assert(operatorType == AND || operatorType == OR);
   }
 
-  return new BooleanExpr(lhs, rhs, operatorType, operationName);
+  return new BooleanExpr(lhs, rhs, operatorType, operationName, query);
 }

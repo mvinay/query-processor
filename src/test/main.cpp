@@ -7,40 +7,43 @@
 #include "Tuple.h"
 
 #include <iostream>
-#include <vector>
+#include <set>
 
 using std::cout;
 using std::endl;
 
 int main() {
 
-  Attribute *attr1 = Attribute::create("id", INTEGER);
-  Attribute *attr2 = Attribute::create("name", INTEGER);
+  Query *query = Query::create("SimpleQuery");
 
-  std::vector<Attribute *> attrList;
-  attrList.push_back(attr1);
-  attrList.push_back(attr2);
-  Tuple *tuple = Tuple::create(attrList);
-  Relation *R = Relation::create("Table1", tuple);
+  Attribute *attr1 = Attribute::create("id", INTEGER, query);
+  Attribute *attr2 = Attribute::create("name", INTEGER, query);
+  Attribute *attr3 = Attribute::create("name", INTEGER, query);
 
-  Constant *constant = Constant::create(3);
+  AttributeSet attrList;
+  attrList.insert(attr1);
+  attrList.insert(attr2);
+
+  Tuple *tuple = Tuple::create(attrList, query);
+  Relation *R = Relation::create("Table1", tuple, query);
+  cout << *R << endl;
+
+  Constant *constant = Constant::create(3, query);
 
   BooleanExpr *expr =
-      BooleanExpr::create(attr1, constant, BooleanExpr::EQ, "expr1");
-
-  SelectOperation *operation = SelectOperation::create(expr, R, "filter_id");
-
-  std::vector<Attribute *> smallList;
-  smallList.push_back(attr1);
-
-  Tuple *shortTuple = Tuple::create(smallList);
-  ProjectOperation *projectOp =
-      ProjectOperation::create(shortTuple, operation, "project_id");
-
-  cout << *constant << endl;
-  cout << *attr1 << endl;
+      BooleanExpr::create(attr1, constant, BooleanExpr::EQ, query, "expr1");
   cout << *expr << endl;
+
+  SelectOperation *operation =
+      SelectOperation::create(expr, R, "filter_id", query);
   cout << *operation << endl;
+
+  AttributeSet smallList;
+  smallList.insert(attr1);
+  Tuple *shortTuple = Tuple::create(smallList, query);
+
+  ProjectOperation *projectOp =
+      ProjectOperation::create(shortTuple, operation, "project_id", query);
   cout << *projectOp << endl;
 
   return 0;

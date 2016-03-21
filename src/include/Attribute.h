@@ -3,7 +3,6 @@
 
 #include "AttributeType.h"
 #include "Operand.h"
-
 #include "Relation.h"
 
 #include <string>
@@ -14,15 +13,24 @@ private:
   std::string name;
   AttributeType type;
   Relation *relation;
-  Attribute(std::string name, AttributeType type)
-      : Operand("@" + name), name(name), type(type){};
+  Attribute(std::string name, AttributeType type, Query *query)
+      : Operand(name, query), name(name), type(type){};
 
 public:
-  static Attribute *create(std::string, AttributeType type);
+  static Attribute *create(std::string, AttributeType type, Query *query);
 
   void setRelation(Relation *relation);
 
   virtual std::string dump() const;
-};
 
+  std::string getName() const { return name; }
+
+  const std::string getTypeName() { return AttributeTypeNames[type]; }
+
+  struct AttributeCompare {
+    bool operator()(const Attribute *lhs, const Attribute *rhs) const {
+      return lhs->getName() < rhs->getName();
+    }
+  };
+};
 #endif

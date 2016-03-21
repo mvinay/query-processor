@@ -5,6 +5,9 @@
 #include <string>
 
 using std::ostream;
+using std::to_string;
+
+class Query;
 
 class Operand {
 
@@ -13,9 +16,10 @@ public:
 
 private:
   std::string operandName;
+  Query *query;
 
 protected:
-  Operand(std::string operandName) : operandName(operandName) {}
+  Operand(std::string operandName, Query *query);
 
 public:
   virtual std::string dump() const = 0;
@@ -30,6 +34,8 @@ public:
   std::string getOperandName() const { return operandName; }
 
   static int getNextNumber() { return ++operandNameCounter; }
+
+  Query *getQuery() { return query; }
 };
 
 #endif

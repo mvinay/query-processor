@@ -11,14 +11,15 @@ public:
   static string BoolOpNames[];
 
   static BooleanExpr *create(Operand *lhs, Operand *rhs, BoolOperatorType,
-                             string operationName);
+                             Query *query, string operationName);
 
 private:
   BoolOperatorType operatorType;
 
   BooleanExpr(Operand *_lhs, Operand *_rhs, BoolOperatorType _operatorType,
-              string operandName)
-      : BinaryOperation(_lhs, _rhs, BoolOpNames[_operatorType], operandName),
+              string operandName, Query *query)
+      : BinaryOperation(_lhs, _rhs, BoolOpNames[_operatorType], operandName,
+                        query),
         operatorType(_operatorType) {}
 };
 

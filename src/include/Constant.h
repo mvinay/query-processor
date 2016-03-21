@@ -3,9 +3,10 @@
 
 #include "AttributeType.h"
 #include "Operand.h"
+
 #include <string>
 
-#define CREATE_CONSTANT(TYPE) static Constant *create(TYPE value);
+#define CREATE_CONSTANT(TYPE) static Constant *create(TYPE value, Query *query);
 
 using std::to_string;
 using std::string;
@@ -13,7 +14,7 @@ using std::string;
 class Constant : public Operand {
 protected:
   AttributeType type;
-  Constant(AttributeType type) : Operand(""), type(type) {}
+  Constant(AttributeType type, Query *query) : Operand("", query), type(type) {}
 
 public:
   CREATE_CONSTANT(int);
@@ -28,7 +29,8 @@ private:
   int value;
 
 public:
-  IntConstant(int value) : Constant(INTEGER), value(value) {
+  IntConstant(int value, Query *query)
+      : Constant(INTEGER, query), value(value) {
     setOperandName(print());
   }
 
@@ -47,7 +49,8 @@ private:
   float value;
 
 public:
-  FloatConstant(float value) : Constant(FLOAT), value(value) {
+  FloatConstant(float value, Query *query)
+      : Constant(FLOAT, query), value(value) {
     setOperandName(print());
   }
 
@@ -66,7 +69,8 @@ private:
   std::string value;
 
 public:
-  StringConstant(std::string value) : Constant(STRING), value(value) {
+  StringConstant(std::string value, Query *query)
+      : Constant(STRING, query), value(value) {
     setOperandName(print());
   }
 
